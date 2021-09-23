@@ -6,7 +6,12 @@ namespace ConflictingObjectives
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var repo = new WordlistRepo();
+
+            var words = repo.GetListOfWords();
+
+            foreach(var word in words) 
+                Console.WriteLine(word);
         }
     }
 }
