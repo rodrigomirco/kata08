@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ConflictingObjectives.Services;
 
 namespace ConflictingObjectives
 {
@@ -7,29 +8,24 @@ namespace ConflictingObjectives
     {
         static void Main(string[] args)
         {
-            var repo = new WordlistRepo();
+            var filePath = "./ConflictingObjectives/data/wordlist.txt";
+            var compoundWordsLength = 6;
+            var compoundWordsService = new CompoundWordsService();
 
-            var dictOfWords = repo.GetListOfWords();
+            var start = DateTime.Now;
+            compoundWordsService.DisplayCompoundWordsFromFile(filePath, compoundWordsLength);
+            var end = DateTime.Now;
+            var timeSpan = end - start;
 
-            // Each dictionary entry has a list of all words starting with same letter
-            foreach(var words in dictOfWords){
-                var firstLetter = words.Key;
+            Console.WriteLine("Execution time: {0} ms", timeSpan.TotalMilliseconds);
 
-                foreach(var word in words.Where(w => w.Length < 6)){
-                    //Find all 6-letter-words that start with the given smaller word 
-                    var similarWords = words.Where(w => w.Length == 6 && w.StartsWith(word));
+            
+            start = DateTime.Now;
+            compoundWordsService.DisplayCompoundWordsFromFile2(filePath, compoundWordsLength);
+            end = DateTime.Now;
+            timeSpan = end - start;
 
-                    // Each similar word is necessarily bigger than initial word
-                    foreach(var similarWord in similarWords){
-                        var remainingString = similarWord.Substring(word.Length);
-
-                        var matchingWord = dictOfWords[firstLetter].FirstOrDefault(w => w == remainingString);
-                        if(matchingWord != null){
-                            Console.WriteLine(word + " + " + matchingWord + " => " + similarWord);
-                        }
-                    }
-                }
-            }
+            Console.WriteLine("Execution time: {0} ms", timeSpan.TotalMilliseconds);
         }
     }
 }
