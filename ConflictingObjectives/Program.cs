@@ -18,14 +18,6 @@ namespace ConflictingObjectives
             var timeSpan = end - start;
 
             Console.WriteLine("Execution time: {0} ms", timeSpan.TotalMilliseconds);
-
-            
-            start = DateTime.Now;
-            compoundWordsService.DisplayCompoundWordsFromFile2(filePath, compoundWordsLength);
-            end = DateTime.Now;
-            timeSpan = end - start;
-
-            Console.WriteLine("Execution time: {0} ms", timeSpan.TotalMilliseconds);
         }
     }
 }
